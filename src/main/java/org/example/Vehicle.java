@@ -2,7 +2,7 @@ package org.example;
 
 import java.time.LocalDate;
 
-public abstract class Vehicle
+public class Vehicle
 {
     private IdGenerator idGenerator = IdGenerator.getInstance("next-id-store.txt");  // get access to the id Generator
 
