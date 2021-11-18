@@ -32,7 +32,7 @@ public class App
         System.out.println("List of all Vehicles:");
         vehicleManager.displayAllVehicles();
 
-        System.out.println(vehicleManager.findbyReg("151D987105"));
+        vehicleManager.findbyReg("151D987105");
 
 
 

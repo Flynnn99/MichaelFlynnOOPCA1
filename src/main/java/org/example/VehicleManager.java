@@ -69,14 +69,9 @@ public class VehicleManager {
                   System.out.println("Vehicle Found");
                   return v;
               }
-              else
-              {
-                  System.out.println("Vehicle Not Found");
-                  return null;
-              }
 
           }
-          return vehicleList.get(0);
+        return null;
     }
 
 }
