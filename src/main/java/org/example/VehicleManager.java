@@ -61,7 +61,6 @@ public class VehicleManager {
     //TODO add more functionality as per spec.
     public Vehicle findbyReg(String reg)
     {
-
           for(Vehicle v : vehicleList)
           {
               if(v.getRegistration().equals(reg))
@@ -69,7 +68,6 @@ public class VehicleManager {
                   System.out.println("Vehicle Found");
                   return v;
               }
-
           }
         return null;
     }

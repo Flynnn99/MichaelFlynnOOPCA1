@@ -25,6 +25,26 @@ public class PassengerStore {
         }
     }
 
+    public void addPassenger(String name, String email, String phone, double latitude, double longtitude) {
+        Passenger P = new Passenger(name, email, phone, latitude, longtitude);
+
+        boolean dup = false;
+
+        for (Passenger p : passengerList)
+        {
+
+
+            if (p.equals(P)) {
+                dup = true;
+                break;
+            }
+        }
+        if (!dup ) {
+            passengerList.add(P);
+        }
+
+    }
+
     /**
      * Read Passenger records from a text file and create and add Passenger
      * objects to the PassengerStore.

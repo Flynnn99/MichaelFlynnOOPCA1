@@ -33,6 +33,11 @@ public class App
         vehicleManager.displayAllVehicles();
 
         vehicleManager.findbyReg("151D987105");
+        passengerStore.addPassenger("Michael Flynn", "d00240861@gmail.com", "12345679", 54.989, 54.895);
+        passengerStore.displayAllPassengers();
+
+        passengerStore.addPassenger("Michael Flynn", "d00240861@gmail.com", "12345679", 54.989, 54.895);
+        passengerStore.displayAllPassengers();
 
 
 

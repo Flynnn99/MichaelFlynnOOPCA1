@@ -48,6 +48,7 @@ public class Passenger {
         this.location = new LocationGPS(latitude, longitude);
     }
 
+
     public int getId() {
         return id;
     }
@@ -84,6 +85,19 @@ public class Passenger {
 
     public void setLocation(double latitude, double longitude) {
         this.location = new LocationGPS(latitude, longitude);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Passenger passenger = (Passenger) o;
+        return name.equals(passenger.name) && email.equals(passenger.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, email);
     }
 
     @Override

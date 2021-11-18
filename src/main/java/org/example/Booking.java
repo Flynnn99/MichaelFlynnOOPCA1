@@ -15,4 +15,18 @@ class Booking
 
     //TODO - see specification
 
+    public Booking(int bookingId, int passengerId, int vehicleId, LocalDateTime bookingDateTime,
+                   LocationGPS startLocation, LocationGPS endLocation, double cost)
+    {
+        this.bookingId = bookingId;
+        this.passengerId = passengerId;
+        this.vehicleId = vehicleId;
+        this.bookingDateTime = bookingDateTime;
+        this.startLocation = startLocation;
+        this.endLocation = endLocation;
+        this.cost = cost;
+    }
+
+
+
 }
