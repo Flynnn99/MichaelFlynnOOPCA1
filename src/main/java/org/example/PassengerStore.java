@@ -44,6 +44,59 @@ public class PassengerStore {
         }
 
     }
+    public void deletePassenger(String name, String email, String phone, double latitude, double longtitude) {
+        Passenger P = new Passenger(name, email, phone, latitude, longtitude);
+
+        boolean dup = false;
+        String message = "does not exist ";
+
+        for (Passenger p : passengerList)
+        {
+
+            if (p.equals(P))
+            {
+                dup = true;
+                break;
+            }
+        }
+        if (dup )
+        {
+            passengerList.remove(P);
+        }
+        else
+        {
+            System.out.println(message);
+        }
+
+    }
+
+    public void editPassengerName(String name, String email, String phone, double latitude, double longtitude) {
+        String newName = " ";
+        Passenger P = new Passenger(name, email, phone, latitude, longtitude);
+
+        boolean dup = false;
+
+        for (Passenger p : passengerList)
+        {
+
+
+            if (p.equals(P)) {
+                dup = true;
+                break;
+            }
+        }
+        if (dup )
+        {
+            for(int i = 0; i< passengerList.size(); i++)
+            {
+                if(passengerList.get(i).getName().equalsIgnoreCase(name))
+                {
+                    passengerList.get(i).setName(newName);
+                }
+            }
+        }
+
+    }
 
     /**
      * Read Passenger records from a text file and create and add Passenger

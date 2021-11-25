@@ -1,5 +1,7 @@
 package org.example;
 
+import java.time.LocalDateTime;
+
 /**
  * This Vehicle Bookings Management Systems manages the booking of Vehicles
  * by Passengers.
@@ -25,6 +27,7 @@ public class App
 
         // create PassengerStore and load it with passenger records from text file
         PassengerStore passengerStore = new PassengerStore("passengers.txt");
+        BookingManager bookingManager = new BookingManager();
         System.out.println("List of all passengers:");
         passengerStore.displayAllPassengers();
 
@@ -39,6 +42,16 @@ public class App
         passengerStore.addPassenger("Michael Flynn", "d00240861@gmail.com", "12345679", 54.989, 54.895);
         passengerStore.displayAllPassengers();
 
+        passengerStore.deletePassenger("Michael Flynn", "d00240861@gmail.com", "12345679", 54.989, 54.895);
+        passengerStore.displayAllPassengers();
+
+        System.out.println("\n");
+
+        bookingManager.addBooking(001,001,001, 2021,12,15,54.989, 54.895,54.989, 54.895,300);
+
+        System.out.println("Bookings ");
+       bookingManager.displayAllBookings();
+       System.out.println();
 
 
         System.out.println("Program exiting... Goodbye");
