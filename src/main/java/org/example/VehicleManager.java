@@ -59,7 +59,7 @@ public class VehicleManager {
     }
 
     //TODO add more functionality as per spec.
-    public Vehicle findbyReg(String reg)
+    public Vehicle findByReg(String reg)
     {
           for(Vehicle v : vehicleList)
           {
@@ -69,7 +69,39 @@ public class VehicleManager {
                   return v;
               }
           }
+
         return null;
     }
+    public Vehicle findByType(String type)
+    {
+        for (Vehicle v : vehicleList) {
+            if (v.getType().equals(type)) {
+                System.out.println("Vehicle Found");
+                return v;
+            }
+        }
+        return null;
+    }
+    public Vehicle findByMake(String make)
+    {
+        for (Vehicle v : vehicleList) {
+            if (v.getMake().equals(make)) {
+                System.out.println("Vehicle Found");
+                return v;
+            }
+        }
+        return null;
+    }
+    public Vehicle findByModel(String model)
+    {
+        for (Vehicle v : vehicleList) {
+            if (v.getMake().equals(model)) {
+                System.out.println("Vehicle Found");
+                return v;
+            }
+        }
+        return null;
+    }
+
 
 }

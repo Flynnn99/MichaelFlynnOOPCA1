@@ -44,29 +44,19 @@ public class PassengerStore {
         }
 
     }
-    public void deletePassenger(String name, String email, String phone, double latitude, double longtitude) {
-        Passenger P = new Passenger(name, email, phone, latitude, longtitude);
-
-        boolean dup = false;
-        String message = "does not exist ";
+    public void deletePassenger(String name)
+    {
 
         for (Passenger p : passengerList)
         {
 
-            if (p.equals(P))
+            if (p.getName().equalsIgnoreCase(name))
             {
-                dup = true;
-                break;
+                passengerList.remove(name);
             }
+
         }
-        if (dup )
-        {
-            passengerList.remove(P);
-        }
-        else
-        {
-            System.out.println(message);
-        }
+
 
     }
 
@@ -98,6 +88,19 @@ public class PassengerStore {
 
     }
 
+    public Passenger findPassengerByName(String name)
+    {
+        for(Passenger p : passengerList)
+        {
+            if(p.getName().equalsIgnoreCase(name))
+            {
+                System.out.println("Passenger Found");
+                return p;
+            }
+        }
+
+        return null;
+    }
     /**
      * Read Passenger records from a text file and create and add Passenger
      * objects to the PassengerStore.

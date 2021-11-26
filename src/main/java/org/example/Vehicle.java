@@ -1,6 +1,7 @@
 package org.example;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Vehicle
 {
@@ -140,6 +141,4 @@ public class Vehicle
                 + depotGPSLocation + '}';
     }
 
-
-     
 }

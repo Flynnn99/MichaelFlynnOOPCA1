@@ -41,4 +41,9 @@ public class BookingManager
         }
     }
 
+    public Booking findByBookingName(String name)
+    {
+
+        return null;
+    }
 }

@@ -1,6 +1,9 @@
 package org.example;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /**
  * This Vehicle Bookings Management Systems manages the booking of Vehicles
@@ -35,14 +38,14 @@ public class App
         System.out.println("List of all Vehicles:");
         vehicleManager.displayAllVehicles();
 
-        vehicleManager.findbyReg("151D987105");
+        vehicleManager.findByReg("151D987105");
         passengerStore.addPassenger("Michael Flynn", "d00240861@gmail.com", "12345679", 54.989, 54.895);
         passengerStore.displayAllPassengers();
 
         passengerStore.addPassenger("Michael Flynn", "d00240861@gmail.com", "12345679", 54.989, 54.895);
         passengerStore.displayAllPassengers();
 
-        passengerStore.deletePassenger("Michael Flynn", "d00240861@gmail.com", "12345679", 54.989, 54.895);
+        passengerStore.deletePassenger("Michael Flynn");
         passengerStore.displayAllPassengers();
 
         System.out.println("\n");
@@ -56,4 +59,6 @@ public class App
 
         System.out.println("Program exiting... Goodbye");
     }
+
+
 }
