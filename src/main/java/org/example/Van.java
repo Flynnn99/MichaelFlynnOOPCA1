@@ -28,7 +28,7 @@ public class Van extends Vehicle
                String registration, double costPerMile,
                int year, int month, int day,
                int mileage, double latitude, double longitude,
-               int loadSpace)
+               double loadSpace)
     {
         // call superclass constructor to initialize the fields defined in Vehicle
         super(id,type,make,model,milesPerKwH,
@@ -48,8 +48,7 @@ public class Van extends Vehicle
 
     @Override
     public String toString() {
-        return "Van{" +
-                "loadSpace=" + loadSpace +
-                "} " + super.toString();
+        return super.toString() +
+                "  loadSpace=" + loadSpace;
     }
 }

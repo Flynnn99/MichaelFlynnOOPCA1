@@ -18,26 +18,13 @@ public class Vehicle
     private int mileage; // mileage recorded at last service
     private LocationGPS depotGPSLocation;
 
+
+
     // Constructor called when a new Vehicle is being created.
     // No vehicle id is passed in as an argument,
     // so the constructor will autogenerate the id.
     //
-    public Vehicle(String type, String make, String model, double milesPerKwH,
-                   String registration, double costPerMile,
-                   int year, int month, int day,
-                   int mileage, double latitude, double longitude)
-    {
-        this.id = idGenerator.getNextId();  // auto generated id (new for each run of the system)
-        this.type = type;
-        this.make = make;
-        this.model = model;
-        this.milesPerKwH = milesPerKwH;
-        this.registration = registration;
-        this.costPerMile = costPerMile;
-        this.lastServicedDate = LocalDate.of(year, month,day);
-        this.mileage = mileage;
-        this.depotGPSLocation = new LocationGPS(latitude,longitude);
-    }
+
 
     // Constructor to create a Vehicle object, when the id is available.
     // So this is called to construct a Vehicle when the vehicle record is read from
@@ -49,6 +36,22 @@ public class Vehicle
                    int mileage, double latitude, double longitude)
     {
         this.id = id;
+        this.type = type;
+        this.make = make;
+        this.model = model;
+        this.milesPerKwH = milesPerKwH;
+        this.registration = registration;
+        this.costPerMile = costPerMile;
+        this.lastServicedDate = LocalDate.of(year, month,day);
+        this.mileage = mileage;
+        this.depotGPSLocation = new LocationGPS(latitude,longitude);
+    }
+    public Vehicle(String type, String make, String model, double milesPerKwH,
+                   String registration, double costPerMile,
+                   int year, int month, int day,
+                   int mileage, double latitude, double longitude)
+    {
+        this.id = idGenerator.getNextId();
         this.type = type;
         this.make = make;
         this.model = model;
@@ -106,6 +109,9 @@ public class Vehicle
         this.costPerMile = costPerMile;
     }
     public LocalDate getLastServicedDate() { return lastServicedDate; }
+    public int getYearForPrint(){return lastServicedDate.getYear();}
+    public int getMonthForPrint(){return lastServicedDate.getMonthValue();}
+    public int getDayForPrint(){return lastServicedDate.getDayOfMonth();}
     public void setLastServicedDate(LocalDate lastServicedDate) { this.lastServicedDate = lastServicedDate; }
     public int getMileage()
     {
@@ -119,6 +125,8 @@ public class Vehicle
     {
         return depotGPSLocation;
     }
+    public double getLatitudeForPrint(){return getDepotGPSLocation().getLatitude();}
+    public double getLongitudeForPrint(){return getDepotGPSLocation().getLongitude();}
     public void setDepotGPSLocation(double latitude, double longitude) {
         new LocationGPS(latitude,longitude);
     }
@@ -140,5 +148,7 @@ public class Vehicle
                 + lastServicedDate + ", mileage=" + mileage + ", depotGPSLocation="
                 + depotGPSLocation + '}';
     }
+
+
 
 }

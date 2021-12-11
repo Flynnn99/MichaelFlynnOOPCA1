@@ -63,6 +63,9 @@ public class Passenger {
         return location;
     }
 
+    public double getLatitudeForPrint(){return getLocation().getLatitude();}
+    public double getLongitudeForPrint(){return getLocation().getLongitude();}
+
     public String getEmail() {
         return email;
     }
