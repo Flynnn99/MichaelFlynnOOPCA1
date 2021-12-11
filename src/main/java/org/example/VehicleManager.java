@@ -5,10 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class VehicleManager {
     private final ArrayList<Vehicle> vehicleList;  // for Car and Van objects
@@ -125,8 +122,8 @@ public class VehicleManager {
         {
             if(v instanceof Van )
             {
-                System.out.println(v.getId() + "\t\t " + v.getType() + "\t " + v.getMake() + "\t\t " + v.getModel() + "  \t\t "
-                        + v.getMilesPerKm() + "  \t\t " + v.getRegistration() + "  \t\t " + v.getCostPerMile() + "  \t\t " + v.getLastServicedDate() + "\t\t"
+                System.out.println(v.getId() + "\t\t " + v.getType() + "\t " + v.getMake() + "\t\t " + v.getModel() + "  \t\t\t\t"
+                        + v.getMilesPerKm() + " \t\t " + v.getRegistration() + "  \t\t " + v.getCostPerMile() + "  \t\t " + v.getLastServicedDate() + "\t\t"
                         + v.getMileage() + "  \t\t" + v.getDepotGPSLocation() + "  \t\t" + ((Van) v).getLoadSpace() + "\n");
                 System.out.println("-------------------------------------------------------------------------" +
                         "--------------------------------------------------------------------------------------------");
@@ -147,20 +144,22 @@ public class VehicleManager {
         final String MENU_ITEMS = "\n*** Vehicle MENU ***\n"
                 + "1. Show all Vehicles\n"
                 + "2. Find Vehicle by Reg\n"
-                + "3. Find Vehicle by Type\n"
-                + "4. Add New Vehicle\n"
-                + "5. Delete Vehicle\n"
-                + "6. Edit Vehicle\n"
-                + "7. Exit\n"
-                + "Enter Option [1,7]";
+                + "3. Filter Vehicle by Type\n"
+                + "4. Filter By Num of Seats\n"
+                + "5. Add New Vehicle\n"
+                + "6. Delete Vehicle\n"
+                + "7. Edit Vehicle\n"
+                + "8. Exit\n"
+                + "Enter Option [1,8]";
 
         final int SHOW_ALL = 1;
         final int FIND_BY_REG = 2;
         final int FIND_BY_TYPE = 3;
-        final int ADD_VEHICLE = 4;
-        final int DELETE_VEHICLE = 5;
-        final int EDIT_VEHICLE = 6;
-        final int EXIT = 7;
+        final int FILTER_BY_NUM_OF_SEATS = 4;
+        final int ADD_VEHICLE = 5;
+        final int DELETE_VEHICLE = 6;
+        final int EDIT_VEHICLE = 7;
+        final int EXIT = 8;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -179,6 +178,9 @@ public class VehicleManager {
                         break;
                     case FIND_BY_TYPE:
                         findByVehicleType();
+                        break;
+                    case FILTER_BY_NUM_OF_SEATS:
+                        filterVehicleByNumOfSeats();
                         break;
                     case ADD_VEHICLE:
                         addVehicle();
@@ -203,7 +205,7 @@ public class VehicleManager {
             }
         } while (option != EXIT);
     }
-    public void callArrayList(ArrayList<Vehicle> vehicleList)
+    public void callArrayList(List<Vehicle> vehicleList)
     {
 
         for (Vehicle vehicle:vehicleList)
@@ -293,15 +295,41 @@ public class VehicleManager {
 
         Scanner keyboard = new Scanner(System.in);
 
-        System.out.println("Search Find By Type");
+        System.out.println("Search Filter By Type");
         System.out.println("Enter type CAR VAN TRUCK 4X4");
         String type = keyboard.nextLine();
 
-        ArrayList<Vehicle> types = findByType(type);
+        List<Vehicle> types = findByType(new VehicleTypesFilter(type));
         VehicleRegComp regComp = new VehicleRegComp();
         Collections.sort(types, regComp);
         callArrayList(types);
     }
+    private void filterVehicleByNumOfSeats()
+    {
+
+        Scanner keyboard = new Scanner(System.in);
+
+        System.out.println("Search Filter By Num of Seats");
+        System.out.println("Enter Num of Seats");
+        int numOfSeats = keyboard.nextInt();
+
+        List<Vehicle> types = filterByNumOfSeats(new VehicleNumOfSeatsFilter(numOfSeats));
+        VehicleRegComp regComp = new VehicleRegComp();
+        Collections.sort(types, regComp);
+        if(types.isEmpty())
+        {
+            System.out.println("The number you have added is not in the list, " + numOfSeats );
+        }
+        else
+        {
+            System.out.println("Found\n");
+            callArrayList(types);
+        }
+    }
+
+
+
+
     private void findVehicleReg()
     {
         Scanner keyboard = new Scanner(System.in);
@@ -315,18 +343,34 @@ public class VehicleManager {
         else
             System.out.println("Found Booking: \n" + v);
     }
-    private ArrayList<Vehicle> findByType(String type)
+
+    //Filters
+    public List<Vehicle> findByType(IFilter filter)
     {
-        ArrayList<Vehicle> typeOfVehicle = new ArrayList<>();
+        List<Vehicle> typeOfVehicle = new ArrayList<>();
         for (Vehicle v : vehicleList)
         {
-            if (v.getType().equalsIgnoreCase(type))
+            if (filter.matches(v))
             {
                 typeOfVehicle.add(v);
             }
         }
         return typeOfVehicle;
     }
+    public List<Vehicle> filterByNumOfSeats(IFilter filter)
+    {
+        List<Vehicle> numOfSeats = new ArrayList<>();
+        for (Vehicle v : vehicleList)
+        {
+            if (filter.matches(v))
+            {
+                numOfSeats.add(v);
+            }
+        }
+        return numOfSeats;
+    }
+
+
 
 
     //Delete Vehicle

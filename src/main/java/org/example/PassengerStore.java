@@ -273,8 +273,8 @@ public class PassengerStore
                 + "2. Edit Passengers Email\n"
                 + "3. Edit Passengers Phone\n"
                 + "4. Edit Passengers Location\n"
-                + "5. Edit Passenger"
-                + "5. Exit\n"
+                + "5. Edit Passenger\n"
+                + "6. Exit\n"
                 + "Enter Option [1,6]";
         final int EDIT_NAME = 1;
         final int EDIT_EMAIL = 2;

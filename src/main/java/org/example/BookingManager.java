@@ -25,89 +25,7 @@ public class BookingManager
         loadBookingDataFromFileName(filename);
     }
 
-    //TODO implement functionality as per specification
-    public void displayAllBookings()
-    {
-        System.out.println("Booking\tPassenger\tVehicle\t\tBooking Date\tStart Depot\t\t\t\t\t\t\t\t\t\t End Depot\t\t\t\t\t\t\t\t\t\t\tCost   ");
-        System.out.println("============================================================================================================================================================");
-        for (Booking b : this.bookingList)
-        {
-
-            System.out.println(b.getBookingId() + "   \t\t" + b.getPassengerId() + " \t\t" + b.getVehicleId() + "\t\t" + b.getBookingDateTime() + "\t\t" + b.getStartLocation() + "\t" + b.getEndLocation() + "\t\t" + b.getCost() + "\n");
-            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        }
-    }
-
-    public void addBooking(int passengerId, int vehicleId, int year, int month, int day,
-                           double startLat, double startLong, double endLat, double endLong)
-    {
-        if(passengerStore.findPassengerById(passengerId) !=null)
-        {
-            if(vehicleManager.findVehicleById(vehicleId) !=null)
-            {
-               double cost = Haversine(startLat,startLong,endLat,endLong)/1.6;
-                Booking B = new Booking(passengerId,vehicleId,year,month,day,startLat, startLong, endLat, endLong, cost);
-
-                boolean bookingdup = false;
-                String message = "";
-
-                for(Booking b : bookingList)
-                {
-                    if (b.equals(B))
-                    {
-                        bookingdup = true;
-                        message = "Already a booking with these details";
-                        break;
-
-                    }
-                }
-                if(!bookingdup)
-                {
-                    bookingList.add(B);
-                    message = "Record successfully added";
-                }
-                System.out.println(message);
-            }
-        }
-        else
-        {
-            System.out.println(passengerId + "  Does not Exist");
-        }
-
-    }
-
-    private void deleteBooking(int delId)
-    {
-        String message = " ";
-
-     /*for(Booking b : bookingList)
-     {
-         if(b.getBookingId() == delId)
-         {
-             bookingList.remove(b);
-             message = "Successfully removed booking : " + delId ;
-         }
-         else
-         {
-             message = "Booking:  " + delId + " Was not removed";
-         }
-         System.out.println(message);*/
-        for(int i = 0; i< bookingList.size(); i++)
-        {
-            if(bookingList.get(i).getBookingId() == delId)
-            {
-                bookingList.remove(i);
-                message = "Successfully removed booking : " + delId ;
-            }
-            else
-            {
-                message = "Booking:  " + delId + " Was not removed";
-            }
-
-        }
-        System.out.println(message);
-    }
-
+    //Read and Write Bookings
     private void loadBookingDataFromFileName(String filename)
     {
         try {
@@ -172,6 +90,8 @@ public class BookingManager
         }
     }
 
+
+    //Displays
     public  void displayBookingMenu()
     {
         final String MENU_ITEMS = "\n*** Booking MENU ***\n"
@@ -182,8 +102,9 @@ public class BookingManager
                 + "5. Find Future Bookings\n"
                 + "6. Delete Booking\n"
                 + "7. Edit Bookings\n"
-                + "8. Exit\n"
-                + "Enter Option [1,8]";
+                + "8. Filter Booking By ID\n"
+                + "9. Exit\n"
+                + "Enter Option [1,9]";
 
         final int SHOW_ALL = 1;
         final int ADD_BOOKINGS = 2;
@@ -192,7 +113,8 @@ public class BookingManager
         final int FIND_BY_FUTURE_DATE = 5;
         final int DELETE_BOOKING = 6;
         final int EDIT_BOOKING = 7;
-        final int EXIT = 8;
+        final int FILTER_BOOK_BY_ID =8;
+        final int EXIT = 9;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -224,6 +146,9 @@ public class BookingManager
                     case EDIT_BOOKING:
                         editBookingMenu();
                         break;
+                    case FILTER_BOOK_BY_ID:
+                        filterByBookingIDMenu();
+                        break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
                         break;
@@ -247,58 +172,57 @@ public class BookingManager
                     +"\t\t" + b.getCost());
         }
     }
-
-
-
-    //Booking Functions
-    public List<Booking> findBookingByPassengerName(String name)
+    public void displayAllBookings()
     {
-        List<Booking> bookName = new ArrayList();
-        try {
+        System.out.println("Booking\tPassenger\tVehicle\t\tBooking Date\tStart Depot\t\t\t\t\t\t\t\t\t\t End Depot\t\t\t\t\t\t\t\t\t\t\tCost   ");
+        System.out.println("============================================================================================================================================================");
+        for (Booking b : this.bookingList)
+        {
+
+            System.out.println(b.getBookingId() + "   \t\t" + b.getPassengerId() + " \t\t" + b.getVehicleId() + "\t\t" + b.getBookingDateTime() + "\t\t" + b.getStartLocation() + "\t" + b.getEndLocation() + "\t\t" + b.getCost() + "\n");
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        }
+    }
 
 
-            for (Booking b : bookingList)
+    //Add Booking
+    public void addBooking(int passengerId, int vehicleId, int year, int month, int day,
+                           double startLat, double startLong, double endLat, double endLong)
+    {
+        if(passengerStore.findPassengerById(passengerId) !=null)
+        {
+            if(vehicleManager.findVehicleById(vehicleId) !=null)
             {
-                if (b.getPassengerId() == passengerStore.findPassengerByName(name).getId()) {
-                    bookName.add(b);
+                double cost = Haversine(startLat,startLong,endLat,endLong)/1.6;
+                Booking B = new Booking(passengerId,vehicleId,year,month,day,startLat, startLong, endLat, endLong, cost);
+
+                boolean bookingdup = false;
+                String message = "";
+
+                for(Booking b : bookingList)
+                {
+                    if (b.equals(B))
+                    {
+                        bookingdup = true;
+                        message = "Already a booking with these details";
+                        break;
+
+                    }
                 }
-            }
-
-        }catch(NullPointerException exeception)
-        {
-            System.out.println("Error");
-        }
-
-        return bookName;
-    }
-    private List<Booking> findFutureDates()
-    {
-        ArrayList futureDays = new ArrayList();
-
-        for(Booking b : bookingList)
-        {
-            if(b.getBookingDateTime().isAfter(LocalDate.now()))
-            {
-                futureDays.add(b);
+                if(!bookingdup)
+                {
+                    bookingList.add(B);
+                    message = "Record successfully added";
+                }
+                System.out.println(message);
             }
         }
-        return futureDays;
-    }
-    public Booking findByBookingId(int bookId)
-    {
-        for(Booking b : bookingList)
+        else
         {
-            if(b.getBookingId() == bookId)
-            {
-                System.out.println("Booking Found");
-                return b;
-
-            }
+            System.out.println(passengerId + "  Does not Exist");
         }
-        return null;
-    }
 
-    //Booking Menus
+    }
     private void addBookingMenu()
     {
         Scanner keyboard = new Scanner(System.in);
@@ -372,6 +296,55 @@ public class BookingManager
         }
         addBooking(addPassengerId,addVehicleId,addYear,addMonth,addDay,addStartLat, addStartLong, addEndLat, addEndLong);
     }
+
+
+    //Find By
+    public List<Booking> findBookingByPassengerName(String name)
+    {
+        List<Booking> bookName = new ArrayList();
+        try {
+
+
+            for (Booking b : bookingList)
+            {
+                if (b.getPassengerId() == passengerStore.findPassengerByName(name).getId()) {
+                    bookName.add(b);
+                }
+            }
+
+        }catch(NullPointerException exeception)
+        {
+            System.out.println("Error");
+        }
+
+        return bookName;
+    }
+    private List<Booking> findFutureDates()
+    {
+        ArrayList futureDays = new ArrayList();
+
+        for(Booking b : bookingList)
+        {
+            if(b.getBookingDateTime().isAfter(LocalDate.now()))
+            {
+                futureDays.add(b);
+            }
+        }
+        return futureDays;
+    }
+    public Booking findByBookingId(int bookId)
+    {
+        for(Booking b : bookingList)
+        {
+            if(b.getBookingId() == bookId)
+            {
+                System.out.println("Booking Found");
+                return b;
+
+            }
+        }
+        return null;
+    }
     private void findByNameMenu()
     {
         Scanner keyboard = new Scanner(System.in);
@@ -421,6 +394,9 @@ public class BookingManager
             callBookArray(futureDays);
         }
     }
+
+
+    //Delete Menus
     private void deleteBookingMenu()
     {
         Scanner keyboard = new Scanner(System.in);
@@ -431,11 +407,330 @@ public class BookingManager
         deleteBooking(delId);
         
     }
-    private void editBookingMenu()
+    private void deleteBooking(int delId)
     {
-        System.out.println("Currently Working on it");
+        String message = " ";
+
+     /*for(Booking b : bookingList)
+     {
+         if(b.getBookingId() == delId)
+         {
+             bookingList.remove(b);
+             message = "Successfully removed booking : " + delId ;
+         }
+         else
+         {
+             message = "Booking:  " + delId + " Was not removed";
+         }
+         System.out.println(message);*/
+        for(int i = 0; i< bookingList.size(); i++)
+        {
+            if(bookingList.get(i).getBookingId() == delId)
+            {
+                bookingList.remove(i);
+                message = "Successfully removed booking : " + delId ;
+            }
+            else
+            {
+                message = "Booking:  " + delId + " Was not removed";
+            }
+
+        }
+        System.out.println(message);
     }
 
+    //Filters
+    public List<Booking> filterById(IFilter filter)
+    {
+        List<Booking> filterId = new ArrayList<>();
+        for(Booking b: bookingList)
+        {
+            if(filter.matches(b))
+            {
+                filterId.add(b);
+
+            }
+        }
+        return filterId;
+    }
+    private void filterByBookingIDMenu()
+    {
+        Scanner keyboard = new Scanner(System.in);
+
+        System.out.println("Filter Booking By Passenger Id");
+        System.out.println("Enter the Passenger Id you wish to filter by");
+        int passId = keyboard.nextInt();
+
+        List<Booking> bookId = filterById(new BookingIDFilter(passId));
+        callBookArray(bookId);
+    }
+
+
+
+    //Edits
+    private void editBookingMenu()
+
+    {
+        final String MENU_ITEMS = "\n*** Edit PASSENGER MENU ***\n"
+                + "1. Edit Booking Passenger ID\n"
+                + "2. Edit Booking Vehicle ID\n"
+                + "3. Edit Booking Date\n"
+                + "4. Edit Booking Start Location\n"
+                + "5. Edit Booking End Location\n"
+                + "6. Exit\n"
+                + "Enter Option [1,6]";
+        final int EDIT_PASSENGER_ID = 1;
+        final int EDIT_VEHICLE_ID = 2;
+        final int EDIT_BOOKING_DATE = 3;
+        final int EDIT_START_LOCATION = 4;
+        final int EDIT_END_LOCATION = 5;
+        final int EXIT = 6;
+
+        Scanner keyboard = new Scanner(System.in);
+        int option = 0;
+        do {
+            System.out.println("\n" + MENU_ITEMS);
+            try {
+                String usersInput = keyboard.nextLine();
+                option = Integer.parseInt(usersInput);
+                switch (option) {
+                    case EDIT_PASSENGER_ID:
+                        editPassengerIdMenu();
+                        break;
+                    case EDIT_VEHICLE_ID:
+                        editVehicleIdMenu();
+                        break;
+                    case EDIT_BOOKING_DATE:
+                        editBookingDateMenu();
+                        break;
+                    case EDIT_START_LOCATION:
+                        editStartLocationMenu();
+                        break;
+                    case EDIT_END_LOCATION:
+                        editEndLocationMenu();
+                        break;
+
+                    case EXIT:
+                        System.out.println("Exit Menu option chosen");
+                        break;
+                    default:
+                        System.out.print("Invalid option - please enter number in range");
+                        break;
+                }
+
+            } catch (InputMismatchException | NumberFormatException | NullPointerException e)
+            {
+                System.out.print("Invalid option - please enter number in range");
+            }
+        } while (option != EXIT);
+    }
+
+    private void editPassengerIdMenu()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Edit Passenger Id");
+        int passengerId = keyboard.nextInt();
+
+        System.out.println("Enter the ID of the booking you wish to update");
+        int id = keyboard.nextInt();
+
+        Booking editBook = editPassengerId(id, passengerId);
+        if (editBook == null)
+            System.out.println("No Booking  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Passenger Id updated to :  \n" + passengerId);
+
+        }
+    }
+    private void editVehicleIdMenu()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Edit Vehicle Id");
+        int vehicleId = keyboard.nextInt();
+
+        System.out.println("Enter the ID of the booking you wish to update");
+        int id = keyboard.nextInt();
+
+        Booking editBook = editVehicleId(id, vehicleId);
+        if (editBook == null)
+            System.out.println("No Booking  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Vehicle Id updated to :  \n" + vehicleId);
+
+        }
+    }
+    private void editBookingDateMenu()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Edit Booking Date");
+
+        System.out.println("Enter Year");
+        int year = keyboard.nextInt();
+        while(year<2019 || year>2025)
+        {
+            System.out.println("Invalid Year Selected Must be between 2021 & 2025");
+            System.out.println("Enter Year");
+            year = keyboard.nextInt();
+        }
+        System.out.println("Enter Month");
+        int month = keyboard.nextInt();
+        while(month<1 || month >12)
+        {
+            System.out.println("Invalid Month Selected");
+            System.out.println("Enter Month");
+            month = keyboard.nextInt();
+        }
+        System.out.println("Enter Month");
+        int day = keyboard.nextInt();
+        while(month<1 || month >31)
+        {
+            System.out.println("Invalid Day Selected");
+            System.out.println("Enter Day");
+            day = keyboard.nextInt();
+        }
+        System.out.println("Enter the Booking Id you wish to edit");
+        int id = keyboard.nextInt();
+
+        Booking editBook = editBookingTime(id, year, month, day);
+        if (editBook == null)
+            System.out.println("No Booking  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Booking Date updated to :  \n" + year + "-"+ month +"-"+ day);
+
+        }
+    }
+    private void editStartLocationMenu()
+    {
+        Scanner keyboard = new Scanner(System.in);
+
+        System.out.println("Edit Start Location");
+
+        System.out.println("Enter the New Latitude for the Start POS");
+        double lat = keyboard.nextDouble();
+        while(lat<-90 || lat>90)
+        {
+            System.out.println("Invalid Latitude MUST BE -90 TO 90");
+            lat = keyboard.nextDouble();
+        }
+        System.out.println("Enter the New Longitude for the Start POS");
+        double lng = keyboard.nextDouble();
+        while(lng<-180 || lng>180)
+        {
+            System.out.println("Invalid Longitude MUST BE -180 TO 180");
+            lng = keyboard.nextDouble();
+        }
+
+        System.out.println("Enter the ID of the Booking you to change");
+        int id = keyboard.nextInt();
+
+        Booking editBook = editStartLocation(id, lat,lng);
+        if (editBook == null)
+            System.out.println("No Booking  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Booking Location updated to :  \n" + lat + "  " + lng);
+
+        }
+    }
+    private void editEndLocationMenu()
+    {
+        Scanner keyboard = new Scanner(System.in);
+
+        System.out.println("Edit End Location");
+
+        System.out.println("Enter the New Latitude for the End POS");
+        double lat = keyboard.nextDouble();
+        while(lat<-90 || lat>90)
+        {
+            System.out.println("Invalid Latitude MUST BE -90 TO 90");
+            lat = keyboard.nextDouble();
+        }
+        System.out.println("Enter the New Longitude for the End POS");
+        double lng = keyboard.nextDouble();
+        while(lng<-180 || lng>180)
+        {
+            System.out.println("Invalid Longitude MUST BE -180 TO 180");
+            lng = keyboard.nextDouble();
+        }
+
+        System.out.println("Enter the ID of the Booking you to change");
+        int id = keyboard.nextInt();
+
+        Booking editBook = editEndLocation(id, lat,lng);
+        if (editBook == null)
+            System.out.println("No Booking  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Booking Location updated to :  \n" + lat + "  " + lng);
+
+        }
+    }
+
+
+    private Booking editBookingTime(int id, int year, int month, int day)
+    {
+        for(Booking b: bookingList)
+        {
+            if(b.getBookingId() == id)
+            {
+                b.setBookingDateTime(year, month, day);
+                return b;
+            }
+        }
+
+        return null;
+    }
+    private Booking editPassengerId(int id, int passengerId)
+    {
+        for(Booking b: bookingList)
+        {
+            if(b.getBookingId() == id)
+            {
+                b.setPassengerId(passengerId);
+                return b;
+            }
+
+        }
+        return null;
+    }
+    private Booking editVehicleId(int id, int vehicleId)
+    {
+        for(Booking b: bookingList)
+        {
+            if(b.getBookingId() == id)
+            {
+                b.setVehicleId(vehicleId);
+                return b;
+            }
+
+        }
+        return null;
+    }
+    private Booking editStartLocation(int id, double lat, double lng)
+    {
+        for(Booking b: bookingList)
+        {
+            if(b.getBookingId() == id)
+            {
+                b.setStartLocation(lat,lng);
+                return b;
+            }
+        }
+        return null;
+    }
+    private Booking editEndLocation(int id, double lat, double lng)
+    {
+        for(Booking b: bookingList)
+        {
+            if(b.getBookingId() == id)
+            {
+                b.setEndLocation(lat,lng);
+                return b;
+            }
+        }
+        return null;
+    }
+
+
+    //Method for finding the distance so for Costs
     private double Haversine(double starLat, double startLong, double endLat, double endLong)
     {
         double dLat = Math.toRadians(endLat - starLat);

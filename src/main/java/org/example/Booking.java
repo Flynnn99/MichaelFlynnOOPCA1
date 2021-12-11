@@ -42,9 +42,7 @@ class Booking
         this.cost = cost;
     }
 
-    public int getBookingId() {
-        return bookingId;
-    }
+    public int getBookingId() {return bookingId;}
 
     public void setBookingId(int bookingId) {
         this.bookingId = bookingId;
@@ -73,18 +71,17 @@ class Booking
     public int getMonthForPrint(){return getBookingDateTime().getMonthValue();}
     public int getDayForPrint(){return getBookingDateTime().getDayOfMonth();}
 
-    public void setBookingDateTime(LocalDate bookingDateTime) {
-        this.bookingDateTime = bookingDateTime;
-    }
+    public void setBookingDateTime(int year, int month, int day){this.bookingDateTime = LocalDate.of(year, month, day);}
 
     public LocationGPS getStartLocation() {
         return startLocation;
     }
 
 
-    public void setStartLocation(LocationGPS startLocation) {
-        this.startLocation = startLocation;
-    }
+    public void setStartLocation(double latitude, double longitude) {this.startLocation = new LocationGPS(latitude, longitude);}
+    public void setEndLocation(double latitude, double longitude) {this.endLocation = new LocationGPS(latitude, longitude);}
+
+
 
     public LocationGPS getEndLocation() {
         return endLocation;
