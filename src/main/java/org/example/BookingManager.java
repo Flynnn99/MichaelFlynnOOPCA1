@@ -45,7 +45,7 @@ public class BookingManager
         {
             if(vehicleManager.findVehicleById(vehicleId) !=null)
             {
-               double cost = 100;
+               double cost = Haversine(startLat,startLong,endLat,endLong)/1.6;
                 Booking B = new Booking(passengerId,vehicleId,year,month,day,startLat, startLong, endLat, endLong, cost);
 
                 boolean bookingdup = false;
@@ -67,10 +67,6 @@ public class BookingManager
                     message = "Record successfully added";
                 }
                 System.out.println(message);
-            }
-            else
-            {
-                System.out.println(vehicleId + "  Does not Exist");
             }
         }
         else
@@ -242,7 +238,7 @@ public class BookingManager
         } while (option != EXIT);
 
     }
-    public void callBookArray(ArrayList<Booking> bookingList)
+    public void callBookArray(List<Booking> bookingList)
     {
         for(Booking b: bookingList)
         {
@@ -255,20 +251,27 @@ public class BookingManager
 
 
     //Booking Functions
-    public ArrayList<Booking> findBookingByPassengerName(String name)
+    public List<Booking> findBookingByPassengerName(String name)
     {
-        ArrayList<Booking> bookName = new ArrayList();
+        List<Booking> bookName = new ArrayList();
+        try {
 
-      for(Booking b : bookingList)
-      {
-         if(b.getPassengerId() == passengerStore.findPassengerByName(name).getId())
-          {
-              bookName.add(b);
-          }
-      }
-      return bookName;
+
+            for (Booking b : bookingList)
+            {
+                if (b.getPassengerId() == passengerStore.findPassengerByName(name).getId()) {
+                    bookName.add(b);
+                }
+            }
+
+        }catch(NullPointerException exeception)
+        {
+            System.out.println("Error");
+        }
+
+        return bookName;
     }
-    private ArrayList<Booking> findFutureDates()
+    private List<Booking> findFutureDates()
     {
         ArrayList futureDays = new ArrayList();
 
@@ -375,7 +378,7 @@ public class BookingManager
         System.out.println("Find Booking By Passenger Name");
         System.out.println("Enter Passenger Name");
         String passName = keyboard.nextLine();
-        ArrayList<Booking> passBook = findBookingByPassengerName(passName);
+        List<Booking> passBook = findBookingByPassengerName(passName);
         BookingDatesComp bookComp = new BookingDatesComp();
         Collections.sort(passBook, bookComp);
         if(passBook.isEmpty())
@@ -406,7 +409,7 @@ public class BookingManager
     private void findFutureDayMenu()
     {
         System.out.println("Find Future Bookings");
-        ArrayList<Booking> futureDays = findFutureDates();
+        List<Booking> futureDays = findFutureDates();
         BookingDatesComp bookComp = new BookingDatesComp();
         Collections.sort(futureDays, bookComp);
         if(futureDays.isEmpty())
@@ -431,6 +434,26 @@ public class BookingManager
     private void editBookingMenu()
     {
         System.out.println("Currently Working on it");
+    }
+
+    private double Haversine(double starLat, double startLong, double endLat, double endLong)
+    {
+        double dLat = Math.toRadians(endLat - starLat);
+        double dLon = Math.toRadians(endLong - startLong);
+
+        // convert to radians
+        starLat = Math.toRadians(starLat);
+        endLat = Math.toRadians(endLat);
+
+        // apply formulae
+        double a = Math.pow(Math.sin(dLat / 2), 2) +
+                Math.pow(Math.sin(dLon / 2), 2) *
+                        Math.cos(starLat) *
+                        Math.cos(endLat);
+        double rad = 6371;
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return rad * c;
+    
     }
 
 }

@@ -112,7 +112,8 @@ public class Vehicle
     public int getYearForPrint(){return lastServicedDate.getYear();}
     public int getMonthForPrint(){return lastServicedDate.getMonthValue();}
     public int getDayForPrint(){return lastServicedDate.getDayOfMonth();}
-    public void setLastServicedDate(LocalDate lastServicedDate) { this.lastServicedDate = lastServicedDate; }
+    //public void setLastServicedDate(LocalDate lastServicedDate) { this.lastServicedDate = lastServicedDate; }
+    public void setLastServicedDate(int year, int month, int day){this.lastServicedDate = LocalDate.of(year, month, day); }
     public int getMileage()
     {
         return mileage;
@@ -127,9 +128,11 @@ public class Vehicle
     }
     public double getLatitudeForPrint(){return getDepotGPSLocation().getLatitude();}
     public double getLongitudeForPrint(){return getDepotGPSLocation().getLongitude();}
-    public void setDepotGPSLocation(double latitude, double longitude) {
-        new LocationGPS(latitude,longitude);
+    public void setLocation(double latitude, double longitude)
+    {
+        this.depotGPSLocation = new LocationGPS(latitude, longitude);
     }
+
     public String getType()
     {
         return type;

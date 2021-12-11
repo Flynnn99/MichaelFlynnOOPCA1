@@ -19,31 +19,7 @@ public class VehicleManager {
         loadVehiclesFromFile(fileName);
     }
 
-    public void displayAllVehicles()
-    {
-
-        for (Vehicle v : vehicleList)
-        {
-            if(v instanceof Van )
-            {
-                System.out.println(v.getId() + "\t\t " + v.getType() + "\t " + v.getMake() + "\t\t " + v.getModel() + "  \t\t "
-                        + v.getMilesPerKm() + "  \t\t " + v.getRegistration() + "  \t\t " + v.getCostPerMile() + "  \t\t " + v.getLastServicedDate() + "\t\t"
-                        + v.getMileage() + "  \t\t" + v.getDepotGPSLocation() + "  \t\t" + ((Van) v).getLoadSpace() + "\n");
-                System.out.println("-------------------------------------------------------------------------" +
-                        "--------------------------------------------------------------------------------------------");
-            }
-            else if (v instanceof Car)
-            {
-                System.out.println(v.getId() + "\t\t " + v.getType() + "\t " + v.getMake() + "\t\t " + v.getModel() + "  \t\t "
-                        + v.getMilesPerKm() + "  \t\t " + v.getRegistration() + "  \t\t " + v.getCostPerMile() + "  \t\t " + v.getLastServicedDate() + "\t\t"
-                        + v.getMileage() + "  \t\t" + v.getDepotGPSLocation() + "  \t\t" + ((Car) v).getNumOfSeats() + "\n");
-                System.out.println("-------------------------------------------------------------------------" +
-                        "--------------------------------------------------------------------------------------------");
-
-            }
-            }
-    }
-
+    //Read and Write files
     public void loadVehiclesFromFile(String fileName) {
         try {
             Scanner sc = new Scanner(new File(fileName));
@@ -141,104 +117,40 @@ public class VehicleManager {
         }
     }
 
-    //TODO add more functionality as per spec.
-    public Vehicle findByReg(String reg)
+    //Display Vehicles
+    public void displayAllVehicles()
     {
-          for(Vehicle v : vehicleList)
-          {
-              if(v.getRegistration().equalsIgnoreCase(reg))
-              {
-                  System.out.println("Vehicle Found");
-                  return v;
-              }
-          }
 
-        return null;
-    }
-    public Vehicle findVehicleById(int id)
-    {
-        for(Vehicle v : vehicleList)
+        for (Vehicle v : vehicleList)
         {
-            if(v.getId() == id)
+            if(v instanceof Van )
             {
-                System.out.println("Vehicle Found");
-                return v;
+                System.out.println(v.getId() + "\t\t " + v.getType() + "\t " + v.getMake() + "\t\t " + v.getModel() + "  \t\t "
+                        + v.getMilesPerKm() + "  \t\t " + v.getRegistration() + "  \t\t " + v.getCostPerMile() + "  \t\t " + v.getLastServicedDate() + "\t\t"
+                        + v.getMileage() + "  \t\t" + v.getDepotGPSLocation() + "  \t\t" + ((Van) v).getLoadSpace() + "\n");
+                System.out.println("-------------------------------------------------------------------------" +
+                        "--------------------------------------------------------------------------------------------");
             }
-        }
-
-        return null;
-    }
-
-    /*public Vehicle findByMake(String make)
-    {
-        for (Vehicle v : vehicleList) {
-            if (v.getMake().equalsIgnoreCase(make)) {
-                System.out.println("Vehicle Found");
-                return v;
-            }
-        }
-        return null;
-    }
-    public Vehicle findByModel(String model)
-    {
-        for (Vehicle v : vehicleList) {
-            if (v.getMake().equalsIgnoreCase(model)) {
-                System.out.println("Vehicle Found");
-                return v;
-            }
-        }
-        return null;
-    }*/
-
-
-    public void addNewVehicle(String type, String make, String model, double milesPerKwH,
-                           String registration, double costPerMile,
-                           int year, int month, int day,
-                           int mileage, double latitude, double longitude, int loadSpace) {
-
-            if (type.equalsIgnoreCase("van") || type.equalsIgnoreCase("truck"))
+            else if (v instanceof Car)
             {
-                vehicleList.add(new Van(type, make, model, milesPerKwH, registration, costPerMile, year, month, day,
-                        mileage, latitude, longitude, loadSpace));
+                System.out.println(v.getId() + "\t\t " + v.getType() + "\t " + v.getMake() + "\t\t " + v.getModel() + "  \t\t "
+                        + v.getMilesPerKm() + "  \t\t " + v.getRegistration() + "  \t\t " + v.getCostPerMile() + "  \t\t " + v.getLastServicedDate() + "\t\t"
+                        + v.getMileage() + "  \t\t" + v.getDepotGPSLocation() + "  \t\t" + ((Car) v).getNumOfSeats() + "\n");
+                System.out.println("-------------------------------------------------------------------------" +
+                        "--------------------------------------------------------------------------------------------");
 
             }
-            else if (type.equalsIgnoreCase("car") || type.equalsIgnoreCase("4x4"))
-            {
-                vehicleList.add(new Car(type, make, model, milesPerKwH, registration, costPerMile, year, month, day,
-                        mileage, latitude, longitude, loadSpace));
             }
-    }
-
-    public void deleteVehicle(int vehicleId)
-    {
-        String message = "";
-        for(int i =0; i < vehicleList.size(); i++)
-        {
-            if(vehicleList.get(i).getId() == vehicleId)
-            {
-                vehicleList.remove(i);
-                i--;
-
-                message = "Successfully removed Vehicle: " + vehicleId;
-
-            }
-            else
-            {
-                message = "Unable to remove Vehicle: " + vehicleId;
-            }
-
-        }
-        System.out.println(message);
     }
     public void displayVehicleMenu()
     {
         final String MENU_ITEMS = "\n*** Vehicle MENU ***\n"
                 + "1. Show all Vehicles\n"
                 + "2. Find Vehicle by Reg\n"
-                + "3.Find Vehicle by Type\n"
-                + "4.Add New Vehicle\n"
-                + "5.Delete Vehicle\n"
-                + "6.Edit Vehicle\n"
+                + "3. Find Vehicle by Type\n"
+                + "4. Add New Vehicle\n"
+                + "5. Delete Vehicle\n"
+                + "6. Edit Vehicle\n"
                 + "7. Exit\n"
                 + "Enter Option [1,7]";
 
@@ -291,7 +203,91 @@ public class VehicleManager {
             }
         } while (option != EXIT);
     }
+    public void callArrayList(ArrayList<Vehicle> vehicleList)
+    {
 
+        for (Vehicle vehicle:vehicleList)
+        {
+            if(vehicle instanceof Van) {
+                System.out.println(vehicle.getId()
+                        + "\t\t" + vehicle.getType()
+                        + "\t" + vehicle.getMake()
+                        + "\t\t" + vehicle.getModel()
+                        + "\t" + vehicle.getMilesPerKm()
+                        + "\t\t" + vehicle.getRegistration()
+                        + "\t" + vehicle.getCostPerMile()
+                        + "\t\t" + vehicle.getLastServicedDate()
+                        + "\t" + vehicle.getMileage()
+                        + "\t\t" + vehicle.getDepotGPSLocation()
+                        + "\t\t" + ((Van) vehicle).getLoadSpace());
+            }
+            else if(vehicle instanceof Car)
+            {
+                System.out.println(vehicle.getId()
+                        + "\t\t" + vehicle.getType()
+                        + "\t" + vehicle.getMake()
+                        + "\t\t" + vehicle.getModel()
+                        + "\t" + vehicle.getMilesPerKm()
+                        + "\t\t" + vehicle.getRegistration()
+                        + "\t" + vehicle.getCostPerMile()
+                        + "\t\t" + vehicle.getLastServicedDate()
+                        + "\t" + vehicle.getMileage()
+                        + "\t\t" + vehicle.getDepotGPSLocation()
+                        + "\t\t" + ((Car) vehicle).getNumOfSeats());
+            }
+
+        }
+
+    }
+
+    //Find Vehicles By
+    public Vehicle findByReg(String reg)
+    {
+          for(Vehicle v : vehicleList)
+          {
+              if(v.getRegistration().equalsIgnoreCase(reg))
+              {
+                  System.out.println("Vehicle Found");
+                  return v;
+              }
+          }
+
+        return null;
+    }
+    public Vehicle findVehicleById(int id)
+    {
+        for(Vehicle v : vehicleList)
+        {
+            if(v.getId() == id)
+            {
+                System.out.println("Vehicle Found");
+                return v;
+            }
+        }
+
+        return null;
+    }
+
+    /*public Vehicle findByMake(String make)
+    {
+        for (Vehicle v : vehicleList) {
+            if (v.getMake().equalsIgnoreCase(make)) {
+                System.out.println("Vehicle Found");
+                return v;
+            }
+        }
+        return null;
+    }
+    public Vehicle findByModel(String model)
+    {
+        for (Vehicle v : vehicleList) {
+            if (v.getMake().equalsIgnoreCase(model)) {
+                System.out.println("Vehicle Found");
+                return v;
+            }
+        }
+        return null;
+    }*/
     private void findByVehicleType()
     {
 
@@ -331,6 +327,61 @@ public class VehicleManager {
         }
         return typeOfVehicle;
     }
+
+
+    //Delete Vehicle
+    private void deleteVehicleMenu()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Delete Menu");
+        System.out.println("Enter ID of booking you wish to delete");
+
+        int delId = keyboard.nextInt();
+        deleteVehicle(delId);
+
+    }
+    public void deleteVehicle(int vehicleId)
+    {
+        String message = "";
+        for(int i =0; i < vehicleList.size(); i++)
+        {
+            if(vehicleList.get(i).getId() == vehicleId)
+            {
+                vehicleList.remove(i);
+                i--;
+
+                message = "Successfully removed Vehicle: " + vehicleId;
+
+            }
+            else
+            {
+                message = "Unable to remove Vehicle: " + vehicleId;
+            }
+
+        }
+        System.out.println(message);
+    }
+
+    //Add Vehicle
+    public void addNewVehicle(String type, String make, String model, double milesPerKwH,
+                              String registration, double costPerMile,
+                              int year, int month, int day,
+                              int mileage, double latitude, double longitude, int loadSpace)
+    {
+
+        if (type.equalsIgnoreCase("van") || type.equalsIgnoreCase("truck"))
+        {
+            vehicleList.add(new Van(type, make, model, milesPerKwH, registration, costPerMile, year, month, day,
+                    mileage, latitude, longitude, loadSpace));
+
+        }
+        else if (type.equalsIgnoreCase("car") || type.equalsIgnoreCase("4x4"))
+        {
+            vehicleList.add(new Car(type, make, model, milesPerKwH, registration, costPerMile, year, month, day,
+                    mileage, latitude, longitude, loadSpace));
+        }
+    }
+
     public void addVehicle()
     {
         Scanner keyboard = new Scanner(System.in);
@@ -425,56 +476,392 @@ public class VehicleManager {
         addNewVehicle(addtype, make, model, milesPerKwH, addReg, costPerMile, year, month, day, mileage, latitude, longitude, additional);
 
     }
-    public void callArrayList(ArrayList<Vehicle> vehicleList)
-    {
 
-        for (Vehicle vehicle:vehicleList)
-        {
-            if(vehicle instanceof Van) {
-                System.out.println(vehicle.getId()
-                        + "\t\t" + vehicle.getType()
-                        + "\t" + vehicle.getMake()
-                        + "\t\t" + vehicle.getModel()
-                        + "\t" + vehicle.getMilesPerKm()
-                        + "\t\t" + vehicle.getRegistration()
-                        + "\t" + vehicle.getCostPerMile()
-                        + "\t\t" + vehicle.getLastServicedDate()
-                        + "\t" + vehicle.getMileage()
-                        + "\t\t" + vehicle.getDepotGPSLocation()
-                        + "\t\t" + ((Van) vehicle).getLoadSpace());
-            }
-            else if(vehicle instanceof Car)
+    //Edit Vehicles
+    private void editVehicleMenu()
+    {
+        final String MENU_ITEMS = "\n*** Edit Vehicle MENU ***\n"
+                + "1. Edit Vehicle Make\n"
+                + "2. Edit Vehicle Model\n"
+                + "3. Edit Vehicle MilesPerKwH\n"
+                + "4. Edit Vehicle Registration\n"
+                + "5. Edit Vehicle costPerMile\n"
+                + "6. Edit Vehicle ServiceDate\n"
+                + "7. Edit Vehicle Mileage\n"
+                + "8. Edit Vehicle Depot Location\n"
+                + "9. Exit\n"
+                + "Enter Option [1,9]";
+        final int EDIT_MAKE = 1;
+        final int EDIT_MODEL = 2;
+        final int EDIT_MILES_PER_KWH = 3;
+        final int EDIT_REGISTRATION = 4;
+        final int EDIT_COST_PER_MILE = 5;
+        final int EDIT_SERVICE_DATE = 6;
+        final int EDIT_MILEAGE = 7;
+        final int EDIT_START_LOCATION = 8;
+        final int EXIT = 9;
+
+        Scanner keyboard = new Scanner(System.in);
+        int option = 0;
+        do {
+            System.out.println("\n" + MENU_ITEMS);
+            try {
+                String usersInput = keyboard.nextLine();
+                option = Integer.parseInt(usersInput);
+                switch (option) {
+                    case EDIT_MAKE:
+                        displayEditMake();
+                        break;
+                    case EDIT_MODEL:
+                        displayEditModel();
+                        break;
+                    case EDIT_MILES_PER_KWH:
+                        displayEditMilesPerKwH();
+                        break;
+
+                    case EDIT_REGISTRATION:
+                        displayEditRegistration();
+                        break;
+                    case EDIT_COST_PER_MILE:
+                        displayEditCostPerMile();
+                        break;
+                    case EDIT_SERVICE_DATE:
+                        displayEditServiceDate();
+                        break;
+                    case EDIT_MILEAGE:
+                        displayEditMileage();
+                        break;
+                    case EDIT_START_LOCATION:
+                        displayEditDepotLocation();
+                        break;
+                    case EXIT:
+                        System.out.println("Exit Menu option chosen");
+                        break;
+                    default:
+                        System.out.print("Invalid option - please enter number in range");
+                        break;
+                }
+
+            } catch (InputMismatchException | NumberFormatException | NullPointerException e)
             {
-                System.out.println(vehicle.getId()
-                        + "\t\t" + vehicle.getType()
-                        + "\t" + vehicle.getMake()
-                        + "\t\t" + vehicle.getModel()
-                        + "\t" + vehicle.getMilesPerKm()
-                        + "\t\t" + vehicle.getRegistration()
-                        + "\t" + vehicle.getCostPerMile()
-                        + "\t\t" + vehicle.getLastServicedDate()
-                        + "\t" + vehicle.getMileage()
-                        + "\t\t" + vehicle.getDepotGPSLocation()
-                        + "\t\t" + ((Car) vehicle).getNumOfSeats());
+                System.out.print("Invalid option - please enter number in range");
             }
+        } while (option != EXIT);
+    }
+
+
+    private void displayEditMake()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Edit Make");
+
+        System.out.println("Enter the Edited Make of the Vehicle");
+        String make = keyboard.nextLine();
+        System.out.println("Enter the Vehicle Id you wish to edit");
+        int id = keyboard.nextInt();
+
+       Vehicle editVehicle = editVehicleMake(id, make);
+        if (editVehicle == null)
+            System.out.println("No Vehicle  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Vehicle Make updated to :  \n" + make);
+
+        }
+
+
+    }
+    private void displayEditModel()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Edit Model");
+
+        System.out.println("Enter the Edited Model of the Vehicle");
+        String model = keyboard.nextLine();
+        System.out.println("Enter the Vehicle Id you wish to edit");
+        int id = keyboard.nextInt();
+
+        Vehicle editVehicle = editVehicleModel(id, model);
+        if (editVehicle == null)
+            System.out.println("No Vehicle  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Vehicle Model updated to :  \n" + model);
+
+        }
+
+
+    }
+    private void displayEditMilesPerKwH()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Edit Miles Per KwH");
+
+        System.out.println("Enter the Edited Miles Per KwH of the Vehicle");
+        int milesPerKwH = keyboard.nextInt();
+
+        System.out.println("Enter the Vehicle Id you wish to edit");
+        int id = keyboard.nextInt();
+
+
+        Vehicle editVehicle = editVehicleMilesPerKwh(id, milesPerKwH);
+        if (editVehicle == null)
+            System.out.println("No Vehicle  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Vehicle Make updated to :  \n" + milesPerKwH);
+
+        }
+
+
+    }
+
+    private void displayEditRegistration()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Edit Reg");
+
+
+        System.out.println("Enter the Edited reg of the Vehicle");
+        String reg = keyboard.nextLine();
+
+        System.out.println("Enter the Vehicle Id you wish to edit");
+        int id = keyboard.nextInt();
+
+        Vehicle editVehicle = editVehicleRegistration(id, reg);
+        if (editVehicle == null)
+            System.out.println("No Vehicle  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Vehicle Registration updated to :  \n" + reg);
+
+        }
+
+
+    }
+    private void displayEditCostPerMile()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Edit Cost Per Mile");
+        System.out.println("Enter the Vehicle Id you wish to edit");
+        int id = keyboard.nextInt();
+        keyboard.nextInt();
+        System.out.println("Enter the Edited Cost Per Mile of the Vehicle");
+        double costPerMile = keyboard.nextDouble();
+
+        Vehicle editVehicle = editVehicleCostPerMiles(id, costPerMile);
+        if (editVehicle == null)
+            System.out.println("No Vehicle  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Vehicle CostPerMile updated to :  \n" + costPerMile);
+
+        }
+
+
+    }
+    private void displayEditServiceDate()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Edit Service Date");
+
+        System.out.println("Enter the Edited Service of the Vehicle");
+        System.out.println("Enter Year");
+        int year = keyboard.nextInt();
+        while(year<2019 || year>2021)
+        {
+            System.out.println("Invalid Year Selected Must be between 2019 & current date");
+            System.out.println("Enter Year");
+            year = keyboard.nextInt();
+        }
+        System.out.println("Enter Month");
+        int month = keyboard.nextInt();
+        while(month<1 || month >12)
+        {
+            System.out.println("Invalid Month Selected");
+            System.out.println("Enter Month");
+            month = keyboard.nextInt();
+        }
+        System.out.println("Enter Month");
+        int day = keyboard.nextInt();
+        while(month<1 || month >31)
+        {
+            System.out.println("Invalid Day Selected");
+            System.out.println("Enter Day");
+            day = keyboard.nextInt();
+        }
+        System.out.println("Enter the Vehicle Id you wish to edit");
+        int id = keyboard.nextInt();
+
+        Vehicle editVehicle = editVehicleServiceDate(id, year, month, day);
+        if (editVehicle == null)
+            System.out.println("No Vehicle  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Vehicle Service Date updated to :  \n" + year + "-"+ month +"-"+ day);
+
+        }
+
+
+    }
+
+    private void displayEditMileage()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Edit Mileage");
+
+
+        System.out.println("Enter the Edited Mileage of the Vehicle");
+        int mileage = keyboard.nextInt();
+
+        System.out.println("Enter the Vehicle Id you wish to edit");
+        int id = keyboard.nextInt();
+
+        Vehicle editVehicle = editVehicleMileage(id, mileage);
+        if (editVehicle == null)
+            System.out.println("No Vehicle  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Vehicle Make updated to :  \n" + mileage);
 
         }
 
     }
-    private void deleteVehicleMenu()
+    private void displayEditDepotLocation()
     {
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("Delete Menu");
-        System.out.println("Enter ID of booking you wish to delete");
 
-        int delId = keyboard.nextInt();
-        deleteVehicle(delId);
+        System.out.println("Edit Vehicle Location");
+
+        System.out.println("Enter the New Latitude for the DEPOT");
+        double lat = keyboard.nextDouble();
+        while(lat<-90 || lat>90)
+        {
+            System.out.println("Invalid Latitude MUST BE -90 TO 90");
+            lat = keyboard.nextDouble();
+        }
+        System.out.println("Enter the New  Longitude for the DEPOT");
+        double lng = keyboard.nextDouble();
+        while(lng<-180 || lng>180)
+        {
+            System.out.println("Invalid Longitude MUST BE -180 TO 180");
+            lng = keyboard.nextDouble();
+        }
+
+        System.out.println("Enter the ID of the Vehicle you to change");
+        int id = keyboard.nextInt();
+
+
+        Vehicle editVehicle = editVehicleDepotLocation(id, lat,lng);
+        if (editVehicle == null)
+            System.out.println("No Vehicle  matching the Id \"" + id + "\"");
+        else {
+            System.out.println("Vehicle Location updated to :  \n" + lat + "  " + lng);
+
+        }
+
 
     }
-    private void editVehicleMenu()
+
+
+    private Vehicle editVehicleMake(int id, String make)
     {
-        System.out.println("Still Working on it");
+        for(Vehicle v: vehicleList)
+        {
+            if(v.getId() == id)
+            {
+                v.setMake(make);
+                return v;
+            }
+        }
+
+        return null;
     }
+    private Vehicle editVehicleModel(int id, String model)
+    {
+        for(Vehicle v: vehicleList)
+        {
+            if(v.getId() == id)
+            {
+                v.setModel(model);
+                return v;
+            }
+        }
+
+        return null;
+    }
+    private Vehicle editVehicleMilesPerKwh(int id, int milesPerKwH)
+    {
+        for(Vehicle v: vehicleList)
+        {
+            if(v.getId() == id)
+            {
+                v.setMilesPerKm(milesPerKwH);
+                return v;
+            }
+        }
+
+        return null;
+    }
+
+    private Vehicle editVehicleRegistration(int id, String reg)
+    {
+        for(Vehicle v: vehicleList)
+        {
+            if(v.getId() == id)
+            {
+                v.setRegistration(reg);
+                return v;
+            }
+        }
+
+        return null;
+    }
+    private Vehicle editVehicleDepotLocation(int id, double lat, double lng)
+    {
+        for(Vehicle v: vehicleList)
+        {
+            if(v.getId() == id)
+            {
+                v.setLocation(lat,lng);
+                return v;
+            }
+        }
+        return null;
+    }
+    private Vehicle editVehicleMileage(int id, int mileage)
+    {
+        for(Vehicle v: vehicleList)
+        {
+            if(v.getId() == id)
+            {
+                v.setMileage(mileage);
+                return v;
+            }
+        }
+
+        return null;
+    }
+    private Vehicle editVehicleCostPerMiles(int id, double costPerMiles)
+    {
+        for(Vehicle v: vehicleList)
+        {
+            if(v.getId() == id)
+            {
+                v.setCostPerMile(costPerMiles);
+                return v;
+            }
+        }
+
+        return null;
+    }
+    private Vehicle editVehicleServiceDate(int id, int year, int month, int day)
+    {
+        for(Vehicle v: vehicleList)
+        {
+            if(v.getId() == id)
+            {
+                v.setLastServicedDate(year, month, day);
+                return v;
+            }
+        }
+
+        return null;
+    }
+
 
 
 
