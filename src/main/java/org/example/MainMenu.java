@@ -14,6 +14,7 @@ public class MainMenu
     PassengerStore passengerStore;  // encapsulates access to list of Passengers
     VehicleManager vehicleManager;  // encapsulates access to list of Vehicles
     BookingManager bookingManager;  // deals with all bookings
+    EmailSender emailSender; //for emails
 
     public static void main(String[] args)
     {
@@ -29,6 +30,8 @@ public class MainMenu
         vehicleManager = new VehicleManager("vehicles.txt");
         //Create the BookingManager and load from the booking text file
         bookingManager = new BookingManager("booking.txt",passengerStore,vehicleManager, bookingManager);
+        //
+        emailSender = new EmailSender();
 
         try
         {
@@ -48,13 +51,17 @@ public class MainMenu
                 + "1. Passengers\n"
                 + "2. Vehicles\n"
                 + "3. Bookings\n"
-                + "4. Exit\n"
-                + "Enter Option [1,4]";
+                + "4. Send Email\n"
+                + "5. Display Outbox\n"
+                + "6. Exit\n"
+                + "Enter Option [1,6]";
 
         final int PASSENGERS = 1;
         final int VEHICLES = 2;
         final int BOOKINGS = 3;
-        final int EXIT = 4;
+        final int EMAILS = 4;
+        final int OUTBOX = 5;
+        final int EXIT = 6;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -75,6 +82,12 @@ public class MainMenu
                     case BOOKINGS:
                         System.out.println("Bookings option chosen");
                         bookingManager.displayBookingMenu();
+                        break;
+                    case EMAILS:
+                        emailSender.sendEmailMenu();
+                        break;
+                    case OUTBOX:
+                        emailSender.displayOutBox();
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
