@@ -92,6 +92,7 @@ public class PassengerStore
         }
         return null;
     }
+
     public List<Passenger> findPassengerById(int id)
     {
         ArrayList<Passenger> pass = new ArrayList();
@@ -101,6 +102,10 @@ public class PassengerStore
             {
                 System.out.println("ID Found");
                 pass.add(p);
+            }
+            else
+            {
+                pass = null;
             }
         }
         return pass;

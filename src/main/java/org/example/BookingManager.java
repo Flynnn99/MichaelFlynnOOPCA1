@@ -61,9 +61,6 @@ public class BookingManager
     {
         try
         {
-
-
-
             PrintWriter readBooking = new PrintWriter(filename);
             for (Booking b : bookingList) {
                 if (b instanceof Booking)
@@ -86,7 +83,7 @@ public class BookingManager
 
         }catch(IOException e)
         {
-
+            System.out.println(e);
         }
     }
 
@@ -216,10 +213,16 @@ public class BookingManager
                 }
                 System.out.println(message);
             }
+            else
+            {
+                System.out.println("Vehicle does not exist");
+                System.out.println("Booking not added");
+            }
         }
         else
         {
-            System.out.println(passengerId + "  Does not Exist");
+            System.out.println("Passenger does not Exist");
+            System.out.println("Booking not added");
         }
 
     }
@@ -312,7 +315,7 @@ public class BookingManager
                 }
             }
 
-        }catch(NullPointerException exeception)
+        }catch(NullPointerException e)
         {
             System.out.println("Error");
         }
